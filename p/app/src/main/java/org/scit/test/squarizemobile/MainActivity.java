@@ -35,30 +35,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.logindBtn:
                 String id = ((EditText)findViewById(R.id.idInput)).getText().toString();
                 String pw = ((EditText)findViewById(R.id.pwInput)).getText().toString();
+                String loginURL = "http://203.233.199.20:8888/Squarize/loginSQmember.action?sq_member_id="+id+"&sq_member_pw="+pw;
 
-
-
-                mProgress = ProgressDialog.show(MainActivity.this,
-                        "Wait", "Downloading...");
-                DownThread thread = new DownThread
-                        ("http://203.233.199.20:8888/Squarize/loginSQmember.action?sq_member_id="+id+"&sq_member_pw="+pw);
+                mProgress = ProgressDialog.show(MainActivity.this, "Wait", "Downloading...");
+                DownThread thread = new DownThread(loginURL);
                 thread.start();
-
-
-
-
-//                if (jsontext == null) return;
-//                JSONObject json = null;
-//                try {
-//                    json = new JSONObject(jsontext);
-//                    condition = json.get("condition").toString();
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-
-
-
 
                 break;
             case R.id.registerBtn:
@@ -98,6 +79,23 @@ public class MainActivity extends AppCompatActivity {
                         }
                         in.close();
                         jsontext = sb.toString();
+
+
+
+
+
+                        JSONObject json = null;
+                        try {
+                            json = new JSONObject(jsontext);
+                            condition = json.get("condition").toString();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+
                     }
                     conn.disconnect();
                 }
@@ -106,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 return "Error : " + e.getMessage();
             }
-
-            Log.i("받아온 값 : ", jsontext);
             return sb.toString();
         }
     }
@@ -115,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             mProgress.dismiss();
-            Toast.makeText(MainActivity.this, jsontext, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, condition, Toast.LENGTH_SHORT).show();
         }
     };
 
