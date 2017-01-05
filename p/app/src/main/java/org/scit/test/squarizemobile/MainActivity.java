@@ -1,6 +1,7 @@
 package org.scit.test.squarizemobile;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.os.NetworkOnMainThreadException;
@@ -37,12 +38,14 @@ public class MainActivity extends AppCompatActivity {
                 String pw = ((EditText)findViewById(R.id.pwInput)).getText().toString();
                 String loginURL = "http://203.233.199.20:8888/Squarize/loginSQmember.action?sq_member_id="+id+"&sq_member_pw="+pw;
 
-                mProgress = ProgressDialog.show(MainActivity.this, "Wait", "Downloading...");
+                mProgress = ProgressDialog.show(MainActivity.this, "로그인", "로그인 중입니다...");
                 DownThread thread = new DownThread(loginURL);
                 thread.start();
 
                 break;
             case R.id.registerBtn:
+                Intent intent = new Intent(this, Register.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -82,18 +85,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
                         JSONObject json = null;
                         try {
                             json = new JSONObject(jsontext);
                             condition = json.get("condition").toString();
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
 
 
                     }
@@ -111,7 +109,23 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             mProgress.dismiss();
-            Toast.makeText(MainActivity.this, condition, Toast.LENGTH_SHORT).show();
+            if(condition == null || condition.equals("")) return;
+            switch(condition){
+                //로그인 성공
+                case "login":
+                    Toast.makeText(MainActivity.this, "환영합니다.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, null);
+                    startActivity(intent);
+                    break;
+                //아이디 틀림
+                case "id":
+                    Toast.makeText(MainActivity.this, "ID가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    break;
+                //비밀번호 틀림
+                case "password":
+                    Toast.makeText(MainActivity.this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+                    break;
+            }
         }
     };
 

@@ -38,13 +38,13 @@
             android:id="@+id/logindBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LOGIN"
+            android:text="로그인"
             android:onClick="btnClick"/>
         <Button
             android:id="@+id/registerBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="REGISTER"
+            android:text="회원가입"
             android:onClick="btnClick"/>
     </LinearLayout>
 
