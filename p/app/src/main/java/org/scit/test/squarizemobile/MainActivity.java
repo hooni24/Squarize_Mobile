@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-
                     }
                     conn.disconnect();
                 }
@@ -105,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
             return sb.toString();
         }
     }
+
     Handler mAfterDown = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -124,6 +124,10 @@ public class MainActivity extends AppCompatActivity {
                 //비밀번호 틀림
                 case "password":
                     Toast.makeText(MainActivity.this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+                    break;
+                //E-mail인증 안함
+                case "email":
+                    Toast.makeText(MainActivity.this, "이메일 인증을 진행해 주세요.", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
