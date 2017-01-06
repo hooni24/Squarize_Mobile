@@ -39,13 +39,14 @@
             android:layout_height="wrap_content"
             android:text="비밀번호"
             android:textSize="15sp"
-            android:gravity="center"/>
+            android:gravity="center" />
         <EditText
             android:id="@+id/pwRegister"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:text="1234"/>
+            android:text="1234"
+            android:password="true"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -64,7 +65,8 @@
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:text="1234"/>
+            android:text="1234"
+            android:password="true"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
