@@ -1,15 +1,13 @@
 package org.scit.test.squarizemobile;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.NetworkOnMainThreadException;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,33 +16,29 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class test extends AppCompatActivity {
     String jsontext;
-    String condition;
+    String buskingList;
     ProgressDialog mProgress;
+    TextView textView01;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_test);
+
+        textView01 = (TextView) findViewById(R.id.textview01);
     }
 
     public void btnClick(View v) {
-                switch (v.getId()) {
-                    case R.id.logindBtn:
-                        String id = ((EditText) findViewById(R.id.idInput)).getText().toString();
-                        String pw = ((EditText) findViewById(R.id.pwInput)).getText().toString();
-                        String loginURL = "http://203.233.199.20:8888/Squarize/loginSQmember.action?sq_member_id=" + id + "&sq_member_pw=" + pw;
+        switch (v.getId()) {
+            case R.id.button01:
+                String buskingURL = "http://203.233.199.19:8888/Squarize/toBuskingList.action";
 
-                        mProgress = ProgressDialog.show(MainActivity.this, "로그인", "로그인 중입니다...");
-                        DownThread thread = new DownThread(loginURL);
-                        thread.start();
+                mProgress = ProgressDialog.show(test.this, "Wait", "불러오는 중입니다...");
+                DownThread thread = new DownThread(buskingURL);
+                thread.start();
 
-                        break;
-                    case R.id.registerBtn:
-                        Intent intent = new Intent(this, Register.class);
-                        startActivity(intent);
-                break;
         }
     }
 
@@ -85,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject json = null;
                         try {
                             json = new JSONObject(jsontext);
-                            condition = json.get("condition").toString();
+                            buskingList = json.get("buskingList").toString();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -107,23 +102,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             mProgress.dismiss();
-            if (condition == null || condition.equals("")) return;
-            switch (condition) {
-                //로그인 성공
-                case "login":
-                    Toast.makeText(MainActivity.this, "환영합니다.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, null);
-                    startActivity(intent);
-                    break;
-                //아이디 틀림
-                case "id":
-                    Toast.makeText(MainActivity.this, "ID가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
-                    break;
-                //비밀번호 틀림
-                case "password":
-                    Toast.makeText(MainActivity.this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
-                    break;
-            }
+            textView01.setText(msg.obj.toString());
         }
     };
 

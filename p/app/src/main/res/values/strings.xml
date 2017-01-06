@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SquarizeMobile</string>
+    <string name="title_activity_busking">Map</string>
 </resources>
