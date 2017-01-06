@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-
                     }
                     conn.disconnect();
                 }
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 //로그인 성공
                 case "login":
                     Toast.makeText(MainActivity.this, "환영합니다.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, null);
+                    Intent intent = new Intent(MainActivity.this, BuskingActivity.class);
                     startActivity(intent);
                     break;
                 //아이디 틀림
@@ -122,6 +121,10 @@ public class MainActivity extends AppCompatActivity {
                 //비밀번호 틀림
                 case "password":
                     Toast.makeText(MainActivity.this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+                    break;
+                //E-mail인증 안함
+                case "email":
+                    Toast.makeText(MainActivity.this, "이메일 인증을 진행해 주세요.", Toast.LENGTH_SHORT).show();
                     break;
             }
         }

@@ -64,9 +64,6 @@ public class Register extends AppCompatActivity {
                 Register.DownThread thread = new Register.DownThread(registerURL);
                 thread.start();
 
-
-                Log.i("asd", registerURL);
-
                 break;
             case R.id.cancelRegister:
                 finish();
