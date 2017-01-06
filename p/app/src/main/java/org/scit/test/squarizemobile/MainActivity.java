@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 //로그인 성공
                 case "login":
                     Toast.makeText(MainActivity.this, "환영합니다.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, null);
+                    Intent intent = new Intent(MainActivity.this, BuskingActivity.class);
                     startActivity(intent);
                     break;
                 //아이디 틀림
