@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class BuskingActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    static final LatLng SEOUL = new LatLng(37.56, 126.97);
+    static LatLng place;
     private GoogleMap googleMap;
     String jsontext;
     String buskingList;
@@ -55,9 +55,9 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(final GoogleMap map) {
         googleMap = map;
 
-        Marker seoul = googleMap.addMarker(new MarkerOptions().position(SEOUL)
+        Marker seoul = googleMap.addMarker(new MarkerOptions().position(place)
                 .title("Seoul"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(place));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
     }
 
@@ -104,14 +104,34 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                             SQ_busking busking = new SQ_busking();
                             for(int i=0; i < jarray.length(); i++){
                                 busking.setSq_busking_id((Integer) jarray.getJSONObject(i).get("sq_busking_id"));
-                                //busking.setBuskingdate(jarray);
-
-
+                                busking.setId((String) jarray.getJSONObject(i).get("id"));
+                                busking.setTitle((String) jarray.getJSONObject(i).get("title"));
+                                busking.setLocation((String) jarray.getJSONObject(i).get("location"));
+                                busking.setLatitude((String) jarray.getJSONObject(i).get("latitude"));
+                                busking.setLongitude((String) jarray.getJSONObject(i).get("longitude"));
+                                busking.setUrl((String) jarray.getJSONObject(i).get("url"));
+                                busking.setGenre((String) jarray.getJSONObject(i).get("genre"));
+                                busking.setTeamname((String) jarray.getJSONObject(i).get("teamname"));
+                                busking.setGallery((String) jarray.getJSONObject(i).get("gallery"));
+                                busking.setGallery2((String) jarray.getJSONObject(i).get("gallery2"));
+                                busking.setGallery3((String) jarray.getJSONObject(i).get("gallery3"));
+                                busking.setGallery4((String) jarray.getJSONObject(i).get("gallery4"));
+                                busking.setGallery5((String) jarray.getJSONObject(i).get("gallery5"));
+                                busking.setBuskingdate((String) jarray.getJSONObject(i).get("buskingdate"));
+                                busking.setRunningtime((Integer) jarray.getJSONObject(i).get("runningtime"));
+                                busking.setDescription((String) jarray.getJSONObject(i).get("description"));
+                                busking.setEnd((String) jarray.getJSONObject(i).get("end"));
 
                                 buskingArrayList.add(busking);
                             }
 
-                            //buskingList = json.get("buskingList").toString();
+                            for(int i=0; i< buskingArrayList.size(); i++){
+                                double longitude = Double.parseDouble(buskingArrayList.get(i).getLongitude());
+                                double latitude = Double.parseDouble(buskingArrayList.get(i).getLatitude());
+
+                                place = new LatLng(latitude, longitude);
+                                onMapReady(googleMap);
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
