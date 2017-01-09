@@ -55,10 +55,13 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(final GoogleMap map) {
         googleMap = map;
 
-        Marker seoul = googleMap.addMarker(new MarkerOptions().position(place)
-                .title("Seoul"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(place));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+
+        Log.i("온맵레디", " 실행");
+
+//        Marker seoul = googleMap.addMarker(new MarkerOptions().position(place)
+//                .title("Seoul"));
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(place));
+//        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
     }
 
     class DownThread extends Thread {
@@ -125,13 +128,15 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                                 buskingArrayList.add(busking);
                             }
 
-                            for(int i=0; i< buskingArrayList.size(); i++){
-                                double longitude = Double.parseDouble(buskingArrayList.get(i).getLongitude());
-                                double latitude = Double.parseDouble(buskingArrayList.get(i).getLatitude());
+                            Log.i("가져온 값 : ", buskingArrayList.toString());
 
-                                place = new LatLng(latitude, longitude);
-                                onMapReady(googleMap);
-                            }
+//                            for(int i=0; i< buskingArrayList.size(); i++){
+//                                double longitude = Double.parseDouble(buskingArrayList.get(i).getLongitude());
+//                                double latitude = Double.parseDouble(buskingArrayList.get(i).getLatitude());
+//
+//                                place = new LatLng(latitude, longitude);
+//                                onMapReady(googleMap);
+//                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -152,7 +157,7 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
         @Override
         public void handleMessage(Message msg) {
             mProgress.dismiss();
-            Log.v("ㅋㅋㅋㅋ", msg.obj.toString());
+            Log.i("핸들러 ", "실행");
         }
     };
 }
