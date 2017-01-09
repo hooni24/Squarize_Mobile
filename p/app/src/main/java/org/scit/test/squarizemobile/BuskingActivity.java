@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class BuskingActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    static LatLng place;
+    static LatLng place  = new LatLng(37.56, 126.97);
     private GoogleMap googleMap;
     String jsontext;
     String buskingList;
@@ -55,13 +55,12 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(final GoogleMap map) {
         googleMap = map;
 
-
         Log.i("온맵레디", " 실행");
 
-//        Marker seoul = googleMap.addMarker(new MarkerOptions().position(place)
-//                .title("Seoul"));
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(place));
-//        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+        Marker seoul = googleMap.addMarker(new MarkerOptions().position(place)
+                .title("Seoul"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(place));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
     }
 
     class DownThread extends Thread {
@@ -105,7 +104,7 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                             json = new JSONObject(jsontext);
                             jarray = json.getJSONArray("buskingList");
                             SQ_busking busking = new SQ_busking();
-                            for(int i=0; i < jarray.length(); i++){
+                            for (int i = 0; i < jarray.length(); i++) {
                                 busking.setSq_busking_id((Integer) jarray.getJSONObject(i).get("sq_busking_id"));
                                 busking.setId((String) jarray.getJSONObject(i).get("id"));
                                 busking.setTitle((String) jarray.getJSONObject(i).get("title"));
@@ -130,14 +129,6 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
 
                             Log.i("가져온 값 : ", buskingArrayList.toString());
 
-//                            for(int i=0; i< buskingArrayList.size(); i++){
-//                                double longitude = Double.parseDouble(buskingArrayList.get(i).getLongitude());
-//                                double latitude = Double.parseDouble(buskingArrayList.get(i).getLatitude());
-//
-//                                place = new LatLng(latitude, longitude);
-//                                onMapReady(googleMap);
-//                            }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -157,7 +148,19 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
         @Override
         public void handleMessage(Message msg) {
             mProgress.dismiss();
-            Log.i("핸들러 ", "실행");
+            Log.v("ㅋㅋㅋㅋ", msg.obj.toString());
+
+            for (int i = 0; i < buskingArrayList.size(); i++) {
+                Log.v("들어오나", buskingArrayList.get(i).toString());
+                double longitude = Double.parseDouble(buskingArrayList.get(i).getLongitude());
+                double latitude = Double.parseDouble(buskingArrayList.get(i).getLatitude());
+
+                place = new LatLng(latitude, longitude);
+
+                Marker seoul = googleMap.addMarker(new MarkerOptions().position(place)
+                        .title(buskingArrayList.get(i).getTitle()));
+            }
+
         }
     };
 }
