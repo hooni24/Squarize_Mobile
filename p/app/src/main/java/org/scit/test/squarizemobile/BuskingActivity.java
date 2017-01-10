@@ -1,6 +1,7 @@
 package org.scit.test.squarizemobile;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -58,8 +59,6 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(final GoogleMap map) {
         googleMap = map;
-
-        Log.i("온맵레디", " 실행");
 
         Marker seoul = googleMap.addMarker(new MarkerOptions().position(place)
                 .title("Seoul"));
@@ -131,9 +130,9 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                                 busking.setEnd((String) jarray.getJSONObject(i).get("end"));
 
                                 buskingArrayList.add(busking);
+                                Log.v("busking", busking.toString());
                             }
 
-                            Log.i("가져온 값 : ", buskingArrayList.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -163,6 +162,7 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date buskingDate = null;
             Date endDate = null;
+
             for (int i = 0; i < buskingArrayList.size(); i++) {
                 double latitude = Double.parseDouble(buskingArrayList.get(i).getLatitude());
                 double longitude = Double.parseDouble(buskingArrayList.get(i).getLongitude());
@@ -194,9 +194,36 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                 }
 
                 //마커찍기
-                markerArray[i] = googleMap.addMarker(marker);
+                //markerArray[i] = googleMap.addMarker(marker);
+
+
+                googleMap.addMarker(new MarkerOptions().position(place)
+                        .title(buskingArrayList.get(i).getTeamname())
+                        .snippet("시간 : " + buskingArrayList.get(i).getBuskingdate()
+                                    +"\n주제 : " + buskingArrayList.get(i).getTitle()));
+
+                final SQ_busking b = buskingArrayList.get(i);
+
+                googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        Intent intent = new Intent(BuskingActivity.this, DetailActivity.class);
+                        intent.putExtra("busking", b);
+                        startActivity(intent);
+                    }
+                });
             }
 
+//            //클릭리스너 달기 (작동 안할수 있음.. 작동 하면 일단은 해당마커 타이틀이 토스트로뜸)
+//            //근데 누른 마커가 어떤건지 어떻게 알지? 객체를 넘기면 좋고 안돼면 buskingid라도 알아야함
+//            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//                @Override
+//                public boolean onMarkerClick(Marker marker) {
+//                    Toast.makeText(getApplicationContext(), "클릭됨" + marker.getTitle(),
+//                            Toast.LENGTH_SHORT).show();
+//                    return false;
+//                }
+//            });
 
         }
     };

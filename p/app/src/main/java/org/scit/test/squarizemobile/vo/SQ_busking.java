@@ -1,10 +1,12 @@
 package org.scit.test.squarizemobile.vo;
 
+import java.io.Serializable;
+
 /**
  * Created by user on 2017-01-06.
  */
 
-public class SQ_busking {
+public class SQ_busking implements Serializable {
     private int sq_busking_id;
     private String id;
     private String title;
