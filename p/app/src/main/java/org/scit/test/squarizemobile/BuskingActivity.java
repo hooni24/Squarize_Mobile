@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.NetworkOnMainThreadException;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,7 +32,7 @@ import java.util.Date;
 
 public class BuskingActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    static LatLng place = new LatLng(36.265778, 127.884858);
+    static final LatLng PLACE = new LatLng(36.265778, 127.884858);
     private GoogleMap googleMap;
     String jsontext;
     String buskingList;
@@ -60,9 +59,8 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(final GoogleMap map) {
         googleMap = map;
 
-        Marker seoul = googleMap.addMarker(new MarkerOptions().position(place)
-                .title("Seoul"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(place));
+        //Marker seoul = googleMap.addMarker(new MarkerOptions().position(place).title("Seoul"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(PLACE));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(7));
     }
 
@@ -109,7 +107,6 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
 
                             for (int i = 0; i < jarray.length(); i++) {
                                 SQ_busking busking = new SQ_busking();
-                                Log.v("jarry", jarray.toString());
                                 busking.setSq_busking_id((Integer) jarray.getJSONObject(i).get("sq_busking_id"));
                                 busking.setId((String) jarray.getJSONObject(i).get("id"));
                                 busking.setTitle((String) jarray.getJSONObject(i).get("title"));
@@ -130,7 +127,6 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                                 busking.setEnd((String) jarray.getJSONObject(i).get("end"));
 
                                 buskingArrayList.add(busking);
-                                Log.v("busking", busking.toString());
                             }
 
 
@@ -169,9 +165,13 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
 
                 //마커기능
                 MarkerOptions marker = new MarkerOptions();
-                marker.position(new LatLng(latitude, longitude));
+
+                LatLng a = new LatLng(latitude, longitude);
+                marker.position(a);
                 marker.draggable(true);
-                marker.title(buskingArrayList.get(i).getTitle());
+                marker.title(buskingArrayList.get(i).getTeamname());
+                marker.snippet("시간 : " + buskingArrayList.get(i).getBuskingdate()
+                                +"\n주제 : " + buskingArrayList.get(i).getTitle());
 
                 //시간계산
                 try {
@@ -194,13 +194,8 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                 }
 
                 //마커찍기
-                //markerArray[i] = googleMap.addMarker(marker);
+                markerArray[i] = googleMap.addMarker(marker);
 
-
-                googleMap.addMarker(new MarkerOptions().position(place)
-                        .title(buskingArrayList.get(i).getTeamname())
-                        .snippet("시간 : " + buskingArrayList.get(i).getBuskingdate()
-                                    +"\n주제 : " + buskingArrayList.get(i).getTitle()));
 
                 final SQ_busking b = buskingArrayList.get(i);
 
@@ -212,7 +207,7 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                         startActivity(intent);
                     }
                 });
-            }
+            } //for문
 
 //            //클릭리스너 달기 (작동 안할수 있음.. 작동 하면 일단은 해당마커 타이틀이 토스트로뜸)
 //            //근데 누른 마커가 어떤건지 어떻게 알지? 객체를 넘기면 좋고 안돼면 buskingid라도 알아야함
