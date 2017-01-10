@@ -25,7 +25,6 @@ import org.json.JSONObject;
 import org.scit.test.squarizemobile.vo.SQ_busking;
 
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
@@ -160,7 +159,10 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
 
             markerArray = new Marker[buskingArrayList.size()];
 
-//            markerArray = new Marker[buskingArrayList.size()];
+            Date now = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date buskingDate = null;
+            Date endDate = null;
 
             for (int i = 0; i < buskingArrayList.size(); i++) {
                 double latitude = Double.parseDouble(buskingArrayList.get(i).getLatitude());
@@ -168,15 +170,13 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
 
                 //마커기능
                 MarkerOptions marker = new MarkerOptions();
+
                 marker.position(new LatLng(latitude, longitude));
                 marker.draggable(true);
-                marker.title(buskingArrayList.get(i).getTitle());
+                marker.title(buskingArrayList.get(i).getTeamname());
+                marker.snippet(buskingArrayList.get(i).getTitle());
 
                 //시간계산
-                Date now = new Date();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date buskingDate = null;
-                Date endDate = null;
                 try {
                     buskingDate = formatter.parse(buskingArrayList.get(i).getBuskingdate());
                     endDate = formatter.parse(buskingArrayList.get(i).getEnd());
@@ -197,22 +197,20 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                 }
 
                 //마커찍기
-//                markerArray[i] = googleMap.addMarker(marker);
+                markerArray[i] = googleMap.addMarker(marker);
 
-
-                googleMap.addMarker(new MarkerOptions().position(place)
-                        .title(buskingArrayList.get(i).getTeamname())
-                        .snippet("시간 : " + buskingArrayList.get(i).getBuskingdate()
-                                    +"\n주제 : " + buskingArrayList.get(i).getTitle()));
 
                 final SQ_busking b = buskingArrayList.get(i);
 
                 googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
-                        Intent intent = new Intent(BuskingActivity.this, DetailActivity.class);
-                        intent.putExtra("busking", b);
-                        startActivity(intent);
+//                        Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+//                        intent.putExtra("busking", b);
+//                        startActivity(intent);
+
+                        Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_SHORT).show();
+
                     }
                 });
             }
