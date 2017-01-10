@@ -159,6 +159,10 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
 
             markerArray = new Marker[buskingArrayList.size()];
 
+            Date now = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date buskingDate = null;
+            Date endDate = null;
             for (int i = 0; i < buskingArrayList.size(); i++) {
                 double latitude = Double.parseDouble(buskingArrayList.get(i).getLatitude());
                 double longitude = Double.parseDouble(buskingArrayList.get(i).getLongitude());
@@ -170,10 +174,6 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                 marker.title(buskingArrayList.get(i).getTitle());
 
                 //시간계산
-                Date now = new Date();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date buskingDate = null;
-                Date endDate = null;
                 try {
                     buskingDate = formatter.parse(buskingArrayList.get(i).getBuskingdate());
                     endDate = formatter.parse(buskingArrayList.get(i).getEnd());
@@ -195,8 +195,6 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
 
                 //마커찍기
                 markerArray[i] = googleMap.addMarker(marker);
-
-
             }
 
 
