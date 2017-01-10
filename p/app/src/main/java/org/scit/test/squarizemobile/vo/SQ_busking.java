@@ -1,12 +1,15 @@
 package org.scit.test.squarizemobile.vo;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
+
 import java.io.Serializable;
 
 /**
  * Created by user on 2017-01-06.
  */
 
-public class SQ_busking implements Serializable {
+public class SQ_busking implements Serializable, ClusterItem {
     private int sq_busking_id;
     private String id;
     private String title;
@@ -214,5 +217,10 @@ public class SQ_busking implements Serializable {
                 + ", rating=" + rating + ", teamname=" + teamname + ", gallery=" + gallery + ", gallery2=" + gallery2
                 + ", gallery3=" + gallery3 + ", gallery4=" + gallery4 + ", gallery5=" + gallery5 + ", buskingdate="
                 + buskingdate + ", runningtime=" + runningtime + ", description=" + description + ", end=" + end + "]";
+    }
+
+    @Override
+    public LatLng getPosition() {
+        return new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
     }
 }

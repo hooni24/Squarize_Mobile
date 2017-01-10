@@ -1,13 +1,11 @@
 package org.scit.test.squarizemobile;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.NetworkOnMainThreadException;
 import android.support.v4.app.FragmentActivity;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,6 +15,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.ClusterManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +38,7 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
     String buskingList;
     ProgressDialog mProgress;
     ArrayList<SQ_busking> buskingArrayList;
+    ClusterManager<SQ_busking> mClusterManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,12 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
         //Marker seoul = googleMap.addMarker(new MarkerOptions().position(place).title("Seoul"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(PLACE));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(7));
+
+        // 클러스터 매니저 생성
+        mClusterManager = new ClusterManager<>(this, googleMap);
+        googleMap.setOnCameraChangeListener(mClusterManager);
+
+
     }
 
     class DownThread extends Thread {
@@ -197,7 +203,8 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
 
                 //마커찍기
                 markerArray[i] = googleMap.addMarker(marker);
-                markerArray[i].setTag(buskingArrayList.get(i));
+                mClusterManager.addItem(buskingArrayList.get(i));
+                /*markerArray[i].setTag(buskingArrayList.get(i));
 
 
                 googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -211,7 +218,7 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                         Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_SHORT).show();
 
                     }
-                });
+                });*/
             } //for문
 
         }
