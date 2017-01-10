@@ -2,6 +2,7 @@ package org.scit.test.squarizemobile;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +22,7 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
     String jsontext;
     String condition;
+    String id;
     ProgressDialog mProgress;
 
     @Override
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public void btnClick(View v) {
                 switch (v.getId()) {
                     case R.id.logindBtn:
-                        String id = ((EditText) findViewById(R.id.idInput)).getText().toString();
+                        id = ((EditText) findViewById(R.id.idInput)).getText().toString();
                         String pw = ((EditText) findViewById(R.id.pwInput)).getText().toString();
                         String loginURL = "http://203.233.199.20:8888/Squarize/loginSQmember.action?sq_member_id=" + id + "&sq_member_pw=" + pw;
 
@@ -110,7 +112,11 @@ public class MainActivity extends AppCompatActivity {
             switch (condition) {
                 //로그인 성공
                 case "login":
-                    Toast.makeText(MainActivity.this, "환영합니다.", Toast.LENGTH_SHORT).show();
+                    SharedPreferences sp = getSharedPreferences("loginInfo", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("loginId", id);
+                    editor.commit();
+
                     Intent intent = new Intent(MainActivity.this, BuskingActivity.class);
                     startActivity(intent);
                     break;

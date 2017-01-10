@@ -2,6 +2,7 @@ package org.scit.test.squarizemobile;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,11 +46,15 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_busking);
 
+        SharedPreferences sp = getSharedPreferences("loginInfo", MODE_PRIVATE);
+        String id = sp.getString("loginId", "");
+        Toast.makeText(this, id + "님 환영합니다.", Toast.LENGTH_SHORT).show();
+
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        String buskingURL = "http://203.233.199.19:8888/Squarize/toBuskingList.action";
+        String buskingURL = "http://203.233.199.19:8888/Squarize/toBuskingList.action?id="+id;
 
         mProgress = ProgressDialog.show(BuskingActivity.this, "Wait", "불러오는 중입니다...");
         BuskingActivity.DownThread thread = new BuskingActivity.DownThread(buskingURL);
@@ -126,6 +131,7 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                                 busking.setRunningtime((Integer) jarray.getJSONObject(i).get("runningtime"));
                                 busking.setDescription((String) jarray.getJSONObject(i).get("description"));
                                 busking.setEnd((String) jarray.getJSONObject(i).get("end"));
+                                busking.setIsGoodock((String) jarray.getJSONObject(i).get("isGoodock"));
 
                                 buskingArrayList.add(busking);
                             }
@@ -205,11 +211,7 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                     public void onInfoWindowClick(Marker marker) {
                         Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
                         intent.putExtra("busking", (SQ_busking) marker.getTag());
-                        intent.putExtra("isGoodock", true);
                         startActivity(intent);
-
-                        Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_SHORT).show();
-
                     }
                 });
             } //for문

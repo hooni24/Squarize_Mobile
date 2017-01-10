@@ -26,6 +26,7 @@ public class SQ_busking implements Serializable {
     private int runningtime;
     private String description;
     private String end;
+    private boolean isGoodock;
 
     public SQ_busking() {
         // TODO Auto-generated constructor stub
@@ -205,6 +206,18 @@ public class SQ_busking implements Serializable {
 
     public void setEnd(String end) {
         this.end = end;
+    }
+
+    public boolean isGoodock(){
+        return isGoodock;
+    }
+
+    public void setIsGoodock(String isGoodock){
+        if(isGoodock.equals("true")){
+            this.isGoodock = true;
+        }else {
+            this.isGoodock = false;
+        }
     }
 
     @Override
