@@ -59,6 +59,8 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(final GoogleMap map) {
         googleMap = map;
 
+        Log.i("온맵레디", " 실행");
+
         Marker seoul = googleMap.addMarker(new MarkerOptions().position(place)
                 .title("Seoul"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(place));
@@ -129,9 +131,9 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                                 busking.setEnd((String) jarray.getJSONObject(i).get("end"));
 
                                 buskingArrayList.add(busking);
-                                Log.v("busking", busking.toString());
                             }
 
+                            Log.i("가져온 값 : ", buskingArrayList.toString());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
