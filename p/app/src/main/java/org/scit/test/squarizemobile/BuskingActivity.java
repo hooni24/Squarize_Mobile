@@ -14,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -27,11 +28,14 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BuskingActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    static LatLng place = new LatLng(37.56, 126.97);
+    static LatLng place = new LatLng(36.265778, 127.884858);
     private GoogleMap googleMap;
     String jsontext;
     String buskingList;
@@ -61,7 +65,7 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
         Marker seoul = googleMap.addMarker(new MarkerOptions().position(place)
                 .title("Seoul"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(place));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(7));
     }
 
     class DownThread extends Thread {
@@ -147,22 +151,54 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
         }
     }
 
-//    Marker[] markerArray;
+    Marker[] markerArray;
 
     Handler mAfterDown = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             mProgress.dismiss();
-            Log.v("ㅋㅋㅋㅋ", msg.obj.toString());
+
+            markerArray = new Marker[buskingArrayList.size()];
 
 //            markerArray = new Marker[buskingArrayList.size()];
 
             for (int i = 0; i < buskingArrayList.size(); i++) {
-                Log.v("들어오나", buskingArrayList.get(i).toString());
-                double longitude = Double.parseDouble(buskingArrayList.get(i).getLongitude());
                 double latitude = Double.parseDouble(buskingArrayList.get(i).getLatitude());
+                double longitude = Double.parseDouble(buskingArrayList.get(i).getLongitude());
 
-                place = new LatLng(latitude, longitude);
+                //마커기능
+                MarkerOptions marker = new MarkerOptions();
+                marker.position(new LatLng(latitude, longitude));
+                marker.draggable(true);
+                marker.title(buskingArrayList.get(i).getTitle());
+
+                //시간계산
+                Date now = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date buskingDate = null;
+                Date endDate = null;
+                try {
+                    buskingDate = formatter.parse(buskingArrayList.get(i).getBuskingdate());
+                    endDate = formatter.parse(buskingArrayList.get(i).getEnd());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                //마커 종류 확인
+                if (endDate.getTime() - now.getTime() < 0) {
+                    continue;
+                }
+                if (86400000 < buskingDate.getTime() - now.getTime() && buskingDate.getTime() - now.getTime() < 86400000 * 3) {
+                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_blue));
+                } else if (0 < buskingDate.getTime() - now.getTime() && buskingDate.getTime() - now.getTime() <= 86400000) {
+                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_red));
+                } else {
+                    marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_purple));
+                }
+
+                //마커찍기
+//                markerArray[i] = googleMap.addMarker(marker);
+
 
                 googleMap.addMarker(new MarkerOptions().position(place)
                         .title(buskingArrayList.get(i).getTeamname())
