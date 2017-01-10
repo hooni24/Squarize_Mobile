@@ -1,8 +1,7 @@
 package org.scit.test.squarizemobile;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -40,8 +39,8 @@ public class DetailActivity extends AppCompatActivity {
         teamname.setText(busking.getTeamname());
         genre.setText(busking.getGenre());
         location.setText(busking.getLocation());
-        runningtime.setText(busking.getRunningtime());
         description.setText(busking.getDescription());
+
 
         //구독여부에 따라 버튼텍스트설정
 
