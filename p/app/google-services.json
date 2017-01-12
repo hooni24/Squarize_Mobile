@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1053753940873",
+    "firebase_url": "https://squarize-5f708.firebaseio.com",
+    "project_id": "squarize-5f708",
+    "storage_bucket": "squarize-5f708.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053753940873:android:6987faedf233ada5",
+        "android_client_info": {
+          "package_name": "org.scit.test.squarizemobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1053753940873-7618vedtbut4l2j6s4456fcnql3p201d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.scit.test.squarizemobile",
+            "certificate_hash": "9D99529120172F6659103F70B4787D55F4F476FC"
+          }
+        },
+        {
+          "client_id": "1053753940873-eibpoimhqmi277i0ccg86iinl8ttt7tj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoggKjBuzny97AmmJ00OYbU-nXJtEvUJ8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1053753940873-eibpoimhqmi277i0ccg86iinl8ttt7tj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
