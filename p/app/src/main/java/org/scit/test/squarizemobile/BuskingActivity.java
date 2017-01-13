@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.NetworkOnMainThreadException;
 import android.support.v4.app.FragmentActivity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -32,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 public class BuskingActivity extends FragmentActivity implements OnMapReadyCallback {
 
     static final LatLng PLACE = new LatLng(37.552756, 126.928317);
@@ -50,6 +52,9 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
         SharedPreferences sp = getSharedPreferences("loginInfo", MODE_PRIVATE);
         String id = sp.getString("loginId", "");
         Toast.makeText(this, id + "님 환영합니다.", Toast.LENGTH_SHORT).show();
+
+        ((TextView)findViewById(R.id.loginId)).setText(id + "님 환영합니다!");
+
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
