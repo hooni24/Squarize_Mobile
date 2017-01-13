@@ -43,6 +43,7 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
     ProgressDialog mProgress;
     ArrayList<SQ_busking> buskingArrayList;
     //ClusterManager<SQ_busking> mClusterManager;
+    String mile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +122,8 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                             json = new JSONObject(jsontext);
                             jarray = json.getJSONArray("buskingList");
 
+                            mile = json.getString("mile");
+
                             for (int i = 0; i < jarray.length(); i++) {
                                 SQ_busking busking = new SQ_busking();
                                 busking.setSq_busking_id((Integer) jarray.getJSONObject(i).get("sq_busking_id"));
@@ -177,6 +180,9 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
             Date buskingDate = null;
             Date endDate = null;
 
+
+
+            ((TextView) findViewById(R.id.mileage)).setText(mile);
 
             for (int i = 0; i < buskingArrayList.size(); i++) {
                 double latitude = Double.parseDouble(buskingArrayList.get(i).getLatitude());
