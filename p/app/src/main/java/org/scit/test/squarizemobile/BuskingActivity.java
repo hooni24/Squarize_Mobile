@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.NetworkOnMainThreadException;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -56,12 +55,11 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        String buskingURL = "http://203.233.199.20:8888/Squarize/toBuskingList.action?id="+id;
+        String buskingURL = "http://203.233.199.20:8888/Squarize/toBuskingList.action?id=" + id;
 
         mProgress = ProgressDialog.show(BuskingActivity.this, "Wait", "불러오는 중입니다...");
         BuskingActivity.DownThread thread = new BuskingActivity.DownThread(buskingURL);
         thread.start();
-        Log.v("순서", "2222");
     }
 
     @Override
@@ -75,7 +73,6 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
         /*// 클러스터 매니저 생성
         mClusterManager = new ClusterManager<>(this, googleMap);
         googleMap.setOnCameraChangeListener(mClusterManager);*/
-        Log.v("순서", "1111");
     }
 
     class DownThread extends Thread {
@@ -166,7 +163,6 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
     Handler mAfterDown = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            Log.v("순서", "3333");
             mProgress.dismiss();
 
             markerArray = new Marker[buskingArrayList.size()];
