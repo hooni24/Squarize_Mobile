@@ -106,7 +106,10 @@ public class DetailActivity extends AppCompatActivity {
      * 후원하기 클릭
      */
     public void hoowon(View v){
-
+        Intent intent = new Intent(this, Hoowon.class);
+        intent.putExtra("mile", getIntent().getExtras().getString("mile"));
+        intent.putExtra("buskerId", busking.getId());
+        startActivity(intent);
     }
 
     /**

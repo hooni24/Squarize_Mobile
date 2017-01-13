@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.NetworkOnMainThreadException;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +68,18 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
         BuskingActivity.DownThread thread = new BuskingActivity.DownThread(buskingURL);
         thread.start();
     }
+
+
+
+
+
+    public void charge(View v){
+        //버튼 누르면 이 메소드 실행됨. 결제창으로 연결되도록
+    }
+
+
+
+
 
     @Override
     public void onMapReady(final GoogleMap map) {
@@ -229,6 +242,7 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
                     public void onInfoWindowClick(Marker marker) {
                         Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
                         intent.putExtra("busking", (SQ_busking) marker.getTag());
+                        intent.putExtra("mile", mile);
                         startActivity(intent);
                     }
                 });
