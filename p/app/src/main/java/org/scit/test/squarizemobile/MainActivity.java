@@ -32,20 +32,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnClick(View v) {
-                switch (v.getId()) {
-                    case R.id.logindBtn:
-                        id = ((EditText) findViewById(R.id.idInput)).getText().toString();
-                        String pw = ((EditText) findViewById(R.id.pwInput)).getText().toString();
-                        String loginURL = "http://203.233.199.20:8888/Squarize/loginSQmember.action?sq_member_id=" + id + "&sq_member_pw=" + pw;
+        switch (v.getId()) {
+            case R.id.logindBtn:
+                id = ((EditText) findViewById(R.id.idInput)).getText().toString();
+                String pw = ((EditText) findViewById(R.id.pwInput)).getText().toString();
+                String loginURL = "http://203.233.199.20:8888/Squarize/loginSQmember.action?sq_member_id=" + id + "&sq_member_pw=" + pw;
 
-                        mProgress = ProgressDialog.show(MainActivity.this, "로그인", "로그인 중입니다...");
-                        DownThread thread = new DownThread(loginURL);
-                        thread.start();
+                mProgress = ProgressDialog.show(MainActivity.this, "로그인", "로그인 중입니다...");
+                DownThread thread = new DownThread(loginURL);
+                thread.start();
 
-                        break;
-                    case R.id.registerBtn:
-                        Intent intent = new Intent(this, Register.class);
-                        startActivity(intent);
+                break;
+            case R.id.registerBtn:
+                Intent intent = new Intent(this, Register.class);
+                startActivity(intent);
                 break;
         }
     }

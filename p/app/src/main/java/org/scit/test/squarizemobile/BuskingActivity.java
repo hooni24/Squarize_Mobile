@@ -55,7 +55,7 @@ public class BuskingActivity extends FragmentActivity implements OnMapReadyCallb
         String id = sp.getString("loginId", "");
         Toast.makeText(this, id + "님 환영합니다.", Toast.LENGTH_SHORT).show();
 
-        ((TextView)findViewById(R.id.loginId)).setText(id + "님 환영합니다!");
+        ((TextView) findViewById(R.id.loginId)).setText(id + "님 환영합니다!");
 
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
